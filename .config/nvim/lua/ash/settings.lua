@@ -1,4 +1,4 @@
--- vim.cmd("colorscheme nightfox")
+-- vim.cmd("colorscheme dawnfox")
 vim.opt.guicursor = ""
 -- vim.opt.guicursor = "n-v-c:block,i-ci-ve:ver25,r-cr-o:hor20"
 vim.opt.guicursor =

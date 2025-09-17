@@ -60,6 +60,8 @@ end, { desc = "Toggle virtual text in diagnostics" })
 -- aerial
 vim.keymap.set("n", "<leader>a", "<cmd>AerialToggle!<CR>")
 
+vim.keymap.set("n", "gz", "1z=", { noremap = true, silent = false })
+
 -- vim.keymap.set("n", "<leader>tb", "Gitsigns toggle_current_line_blame<CR>")
 
 -- terminal
@@ -79,3 +81,7 @@ vim.api.nvim_set_keymap("n", "<Leader>rn", "<Cmd>lua vim.lsp.buf.rename()<CR>", 
 vim.api.nvim_set_keymap("n", "<Leader>gr", "<Cmd>Trouble lsp_references<CR>", { noremap = true, silent = true })
 
 vim.keymap.set("n", "<leader>u", vim.cmd.UndotreeToggle)
+vim.keymap.set("n", "<C-Up>", ":resize +2<CR>")
+vim.keymap.set("n", "<C-Down>", ":resize -2<CR>")
+vim.keymap.set("n", "<C-Left>", ":vertical resize -2<CR>")
+vim.keymap.set("n", "<C-Right>", ":vertical resize +2<CR>")

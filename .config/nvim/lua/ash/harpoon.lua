@@ -4,7 +4,7 @@ local harpoon = require("harpoon")
 harpoon:setup()
 -- REQUIRED
 
-vim.keymap.set("n", "<Space>a", function()
+vim.keymap.set("n", ",a", function()
 	harpoon:list():add()
 end)
 vim.keymap.set("n", "<C-e>", function()

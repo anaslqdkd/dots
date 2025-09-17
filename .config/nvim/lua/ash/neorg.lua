@@ -10,12 +10,13 @@ require("neorg").setup({
 			config = {
 				workspaces = {
 					journal = "~/Documents/journal", -- example workspace
-					notes = "~/Documents/notes",
+					notes = "~/notes",
 				},
-				default_workspace = "journal",
+				default_workspace = "notes",
 			},
 		},
 		["core.integrations.treesitter"] = {},
 		["core.syntax"] = {},
+		["core.summary"] = {},
 	},
 })

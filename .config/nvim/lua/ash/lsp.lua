@@ -70,10 +70,7 @@ cmp.setup({
 	sources = cmp.config.sources({
 		{ name = "nvim_lsp" },
 		{ name = "luasnip" },
-	}, {
-		{ name = "buffer" },
-		{ name = "obsidian" },
-		{ name = "render-markdown" },
+		{ name = "orgmode" },
 	}),
 })
 
@@ -195,19 +192,19 @@ lspconfig.java_language_server.setup({
 -- 		},
 -- 	},
 -- })
-require('lspconfig').lua_ls.setup {
-  cmd = { "lua-language-server" },
-    settings = {
-    Lua = {
-      runtime = { version = 'LuaJIT' },
-      diagnostics = { globals = { 'vim' } },
-      workspace = {
-        library = vim.api.nvim_get_runtime_file("", true), -- <—
-        checkThirdParty = false,
-      },
-    },
-  },
-}
+require("lspconfig").lua_ls.setup({
+	cmd = { "lua-language-server" },
+	settings = {
+		Lua = {
+			runtime = { version = "LuaJIT" },
+			diagnostics = { globals = { "vim" } },
+			workspace = {
+				library = vim.api.nvim_get_runtime_file("", true), -- <—
+				checkThirdParty = false,
+			},
+		},
+	},
+})
 
 require("lspconfig").biome.setup({})
 require("lspconfig").eslint.setup({})

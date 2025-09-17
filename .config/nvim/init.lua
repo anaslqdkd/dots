@@ -21,7 +21,7 @@ require("ash.gitsigns")
 -- require("ash.persistence")
 -- require("ash.obsidian")
 -- require("ash.markdown")
--- require("ash.markdown-render")
+require("ash.markdown-render")
 require("ash.ufo")
 require("ash.trouble")
 require("ash.dap")
@@ -29,10 +29,13 @@ require("ash.dapui")
 require("ash.copilot_chat")
 require("ash.transparent")
 require("ash.typst")
-require("ash.neorg")
 require("ash.harpoon")
+require("ash.neorg")
+require("ash.org")
 -- For init.lua
 local nvim_lsp = require("lspconfig")
+vim.g.vimtex_quickfix_mode = 0
+vim.opt.runtimepath:append(vim.fn.stdpath("data") .. "/site")
 
 nvim_lsp.clangd.setup({})
 

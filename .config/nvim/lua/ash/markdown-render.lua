@@ -1,26 +1,67 @@
-vim.api.nvim_set_hl(0, "ObsidianTodo", { bold = true, fg = "#f78c6c" })
-vim.api.nvim_set_hl(0, "ObsidianDone", { bold = true, fg = "#89ddff" })
-vim.api.nvim_set_hl(0, "ObsidianRightArrow", { bold = true, fg = "#f78c6c" })
-vim.api.nvim_set_hl(0, "ObsidianTilde", { bold = true, fg = "#ff5370" })
-vim.api.nvim_set_hl(0, "ObsidianImportant", { bold = true, fg = "#d73128" })
+vim.api.nvim_set_hl(0, "RenderMarkdownH1", { link = "Identifier" }) -- Big title color
+vim.api.nvim_set_hl(0, "RenderMarkdownH2", { link = "Keyword" }) -- Function-like color
+vim.api.nvim_set_hl(0, "RenderMarkdownH3", { link = "Constant" }) -- Identifier color
+vim.api.nvim_set_hl(0, "RenderMarkdownH4", { link = "String" }) -- String color
+vim.api.nvim_set_hl(0, "RenderMarkdownH5", { link = "Type" }) -- Type color
+vim.api.nvim_set_hl(0, "RenderMarkdownH6", { link = "Number" })
+
+vim.api.nvim_set_hl(0, "RenderMarkdownCodeInline", { link = "NONE" })
+vim.api.nvim_set_hl(0, "RenderMarkdownCodeLanguage", { link = "NONE" })
+vim.api.nvim_set_hl(0, "RenderMarkdownCodeInfo", { bg = "NONE" })
+
+vim.api.nvim_set_hl(0, "RenderMarkdownDash", { link = "Identifier" })
+
+-- TODO: finish this
+-- local id = vim.api.nvim_get_hl_by_name("Identifier", true)
+-- vim.api.nvim_set_hl(0, "@markup.heading.1.markdown", { fg = id.foreground, bold = true })
+
+vim.api.nvim_set_hl(0, "@markup.heading.1.markdown", { link = "Identifier", bold = true })
+vim.api.nvim_set_hl(0, "@markup.heading.2.markdown", { link = "Keyword" })
+vim.api.nvim_set_hl(0, "@markup.heading.3.markdown", { link = "Constant" })
+vim.api.nvim_set_hl(0, "@markup.heading.4.markdown", { link = "String" })
+vim.api.nvim_set_hl(0, "@markup.heading.5.markdown", { link = "Type" })
+vim.api.nvim_set_hl(0, "@markup.heading.6.markdown", { link = "Number" })
 
 require("render-markdown").setup({
-	checkbox = {
+	heading = {
 		enabled = true,
-		custom = {
-			arrow = { raw = "[>]", rendered = " ", highlight = "ObsidianRightArrow" }, -- Forward arrow
-			tilde = { raw = "[~]", rendered = "󰰱 ", highlight = "ObsidianTilde" }, -- Strikethrough
-			important = { raw = "[!]", rendered = " ", highlight = "ObsidianImportant" }, -- Important
+		render_modes = false,
+		atx = true,
+		setext = true,
+		sign = true,
+		icons = { "◆ ", "◇ ", "◆ ", "◇ ", "◆ ", "◇ " },
+		position = "overlay",
+		signs = {},
+		width = "full",
+		left_margin = 0,
+		left_pad = 0,
+		right_pad = 0,
+		min_width = 0,
+		border = false,
+		border_virtual = false,
+		border_prefix = false,
+		above = "▄",
+		below = "▀",
+		backgrounds = {},
+		foregrounds = {
+			"RenderMarkdownH1",
+			"RenderMarkdownH2",
+			"RenderMarkdownH3",
+			"RenderMarkdownH4",
+			"RenderMarkdownH5",
+			"RenderMarkdownH6",
 		},
+		custom = {},
 	},
-	opts = {
-		latex = { enabled = false },
-		win_options = { conceallevel = { rendered = 2 } },
-		on = {
-			attach = function()
-				require("nabla").enable_virt({ autogen = true })
-			end,
-		},
+	code = {
+		disable_background = true,
+		conceal_delimiters = false,
+		highlight_inline = "RenderMarkdownCodeInline",
+		highlight_language = false,
+		highlight_border = false,
+		inline = true,
 	},
-	-- nnoremap <leader>p :lua require("nabla").popup()<CR> " Customize with popup({border = ...})  : `single` (default), `double`, `rounded`
+	dash = {
+		highlight = "RenderMarkdownDash",
+	},
 })

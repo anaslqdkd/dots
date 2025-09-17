@@ -57,11 +57,11 @@
     tmuxPlugins.resurrect
     tmuxPlugins.open
     tmuxPlugins.yank
-    python310Packages.pyqt6
+    # python310Packages.pyqt6
 
 # pour mind
 	mesa
-	python310
+	# python310
 	libGL
   # X11 and OpenGL dependencies
   libxkbcommon
@@ -114,6 +114,15 @@ nodejs_24
 black
 google-java-format
 sqlite
+xorg.xkill
+pandoc
+python313
+python313Packages.dbus-python
+networkmanagerapplet
+networkmanager_dmenu
+sqlitebrowser
+libreoffice-qt6-fresh
+
 
 
 

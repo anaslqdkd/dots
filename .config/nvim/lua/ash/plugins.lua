@@ -36,7 +36,7 @@ Plug 'stevearc/aerial.nvim'
 Plug 'lukas-reineke/indent-blankline.nvim'
 Plug '3rd/image.nvim'
 Plug 'sindrets/diffview.nvim'
-"Plug 'MeanderingProgrammer/render-markdown.nvim'
+Plug 'MeanderingProgrammer/render-markdown.nvim'
 "Plug 'folke/noice.nvim'
 "Plug 'MunifTanjim/nui.nvim'
 "Plug 'rcarriga/nvim-notify'
@@ -65,6 +65,10 @@ Plug 'ibhagwan/fzf-lua'
 Plug 'chomosuke/typst-preview.nvim'
 Plug 'mbbill/undotree'
 Plug 'ThePrimeagen/harpoon', {'branch': 'harpoon2'}
+Plug 'ellisonleao/gruvbox.nvim'
+Plug 'nvim-orgmode/orgmode'
+Plug 'jbyuki/nabla.nvim'
+Plug 'dhruvasagar/vim-table-mode'
 
 "TODO: add vim table mode
 

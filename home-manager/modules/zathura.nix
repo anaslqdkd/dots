@@ -2,8 +2,8 @@
 {
   programs.zathura = {
     enable = true;
-    # extraConfig = ''
-    #   set recolor true
-    # '';
+    extraConfig = ''
+	  set selection-clipboard clipboard
+    '';
   };
 }
