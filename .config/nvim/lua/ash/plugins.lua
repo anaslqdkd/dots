@@ -69,6 +69,7 @@ Plug 'ellisonleao/gruvbox.nvim'
 Plug 'nvim-orgmode/orgmode'
 Plug 'jbyuki/nabla.nvim'
 Plug 'dhruvasagar/vim-table-mode'
+Plug '/home/ash/.config/nvim/timekeeper'
 
 "TODO: add vim table mode
 

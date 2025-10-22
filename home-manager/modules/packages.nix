@@ -1,5 +1,7 @@
 { pkgs, zen, ... }:
 {
+  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.android_sdk.accept_license = true;
   home.packages = with pkgs; [
     # Shell & CLI
     zsh
@@ -122,11 +124,19 @@ networkmanagerapplet
 networkmanager_dmenu
 sqlitebrowser
 libreoffice-qt6-fresh
+python313Packages.pip
+lua52Packages.luasql-sqlite3
+unityhub
 
 
+wasistlos
+foliate
+unrar
+android-tools
+androidsdk
+android-studio
 
 
 
   ];
 }
-# TODO: add the intercept module

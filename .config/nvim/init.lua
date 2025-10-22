@@ -30,8 +30,8 @@ require("ash.copilot_chat")
 require("ash.transparent")
 require("ash.typst")
 require("ash.harpoon")
-require("ash.neorg")
 require("ash.org")
+-- require("timekeeper")
 -- For init.lua
 local nvim_lsp = require("lspconfig")
 vim.g.vimtex_quickfix_mode = 0
@@ -162,3 +162,12 @@ vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
 	desc = "load view (folds), when opening file",
 	command = "silent! loadview",
 })
+-- TODO: put a visual element in oil to know that i am in the file editor and
+-- not in an actual file
+
+local function to_org()
+	vim.cmd("TodoQuickFix")
+	local todos = vim.fn.getqflist()
+	print(vim.inspect(todos))
+end
+vim.api.nvim_create_user_command("ToOrg", to_org, {})

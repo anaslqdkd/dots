@@ -65,3 +65,4 @@ in
 
 
 # TODO: add git config
+# TODO: add power management

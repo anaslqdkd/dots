@@ -1,1 +1,3 @@
-require("aerial").setup({})
+require("aerial").setup({
+	backends = { "treesitter", "markdown", "man" },
+})

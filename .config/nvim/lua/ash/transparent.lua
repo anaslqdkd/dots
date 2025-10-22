@@ -1,4 +1,4 @@
-vim.cmd("colorscheme gruvbox")
+vim.cmd("colorscheme nightfox")
 local transparent = require("transparent")
 transparent.setup({
 	-- table: default groups

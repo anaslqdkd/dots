@@ -1,5 +1,5 @@
 local lsp_zero = require("lsp-zero")
-local lspconfig = require("lspconfig")
+-- local lspconfig = require("lspconfig")
 
 -- lspconfig.csharp_ls.setup({})
 -- require'lspconfig'.csharp_ls.setup{}
@@ -74,32 +74,27 @@ cmp.setup({
 	}),
 })
 
-require("lspconfig").rust_analyzer.setup({
-	on_attach = function(_, bufnr)
-		local function buf_set_keymap(...)
-			vim.api.nvim_buf_set_keymap(bufnr, ...)
-		end
-		local opts = { noremap = true, silent = true }
-		buf_set_keymap("n", "<leader>f", ":lua vim.lsp.buf.format { async = true }<CR>", opts)
-	end,
-
-	settings = {
-		["rust-analyzer"] = {
-			checkOnSave = {
-				command = "clippy",
-			},
-		},
-	},
-})
+-- vim.lsp.config.rust_analyzer.setup({
+-- 	on_attach = function(_, bufnr)
+-- 		local function buf_set_keymap(...)
+-- 			vim.api.nvim_buf_set_keymap(bufnr, ...)
+-- 		end
+-- 		local opts = { noremap = true, silent = true }
+-- 		buf_set_keymap("n", "<leader>f", ":lua vim.lsp.buf.format { async = true }<CR>", opts)
+-- 	end,
+--
+-- 	settings = {
+-- 		["rust-analyzer"] = {
+-- 			checkOnSave = {
+-- 				command = "clippy",
+-- 			},
+-- 		},
+-- 	},
+-- })
 
 local util = require("lspconfig/util")
-lspconfig.pyright.setup({
-	root_dir = function(fname)
-		-- Always return the top-level directory of your project
-		return util.find_git_ancestor(fname)
-			or util.root_pattern("pyproject.toml", "setup.py", "requirements.txt", ".git")(fname)
-			or vim.loop.cwd()
-	end,
+
+vim.lsp.config("pyright", {
 	settings = {
 		python = {
 			analysis = {
@@ -131,13 +126,46 @@ lspconfig.pyright.setup({
 	},
 	capabilities = capabilities,
 })
+vim.lsp.enable({ "pyright" })
 
-lspconfig.java_language_server.setup({
-	on_attach = function(client, bufnr)
-		client.stop() -- Stop the server as soon as it starts
-	end,
-	autostart = false, -- Ensure it does not start automatically
-})
+-- vim.lsp.config.pyright.setup({
+-- 	root_dir = function(fname)
+-- 		-- Always return the top-level directory of your project
+-- 		return util.find_git_ancestor(fname)
+-- 			or util.root_pattern("pyproject.toml", "setup.py", "requirements.txt", ".git")(fname)
+-- 			or vim.loop.cwd()
+-- 	end,
+-- 	settings = {
+-- 		python = {
+-- 			analysis = {
+-- 				-- extraPaths = { "./lib", "./src" }, -- Add directories containing your modules
+-- 				useLibraryCodeForTypes = true, -- Ensure library code is used for type checking
+-- 			},
+-- 		},
+-- 		pyright = {
+-- 			plugins = {
+-- 				-- formatter options
+-- 				black = { enabled = false },
+-- 				autopep8 = { enabled = true },
+-- 				yapf = { enabled = false },
+-- 				-- linter options
+-- 				pylint = { enabled = true, executable = "pylint" },
+-- 				pyflakes = { enabled = false },
+-- 				pycodestyle = { enabled = false },
+-- 				-- type checker
+-- 				pylsp_mypy = { enabled = true },
+-- 				-- auto-completion options
+-- 				jedi_completion = { fuzzy = true },
+-- 				-- import sorting
+-- 				pyls_isort = { enabled = true },
+-- 			},
+-- 		},
+-- 	},
+-- 	flags = {
+-- 		debounce_text_changes = 200,
+-- 	},
+-- 	capabilities = capabilities,
+-- })
 
 -- lspconfig.jdtls.setup({
 -- 	cmd = {
@@ -192,22 +220,23 @@ lspconfig.java_language_server.setup({
 -- 		},
 -- 	},
 -- })
-require("lspconfig").lua_ls.setup({
-	cmd = { "lua-language-server" },
-	settings = {
-		Lua = {
-			runtime = { version = "LuaJIT" },
-			diagnostics = { globals = { "vim" } },
-			workspace = {
-				library = vim.api.nvim_get_runtime_file("", true), -- <—
-				checkThirdParty = false,
-			},
-		},
-	},
-})
+-- TODO: change everywhere with the right syntax
+-- vim.lsp.config.lua_ls.setup({
+-- 	cmd = { "lua-language-server" },
+-- 	settings = {
+-- 		Lua = {
+-- 			runtime = { version = "LuaJIT" },
+-- 			diagnostics = { globals = { "vim" } },
+-- 			workspace = {
+-- 				library = vim.api.nvim_get_runtime_file("", true), -- <—
+-- 				checkThirdParty = false,
+-- 			},
+-- 		},
+-- 	},
+-- })
 
-require("lspconfig").biome.setup({})
-require("lspconfig").eslint.setup({})
+-- vim.lsp.config.biome.setup({})
+-- vim.lsp.config.eslint.setup({})
 
 -- require("lspconfig").lua_ls.setup({
 -- 	on_init = function(client)
@@ -243,40 +272,40 @@ require("lspconfig").eslint.setup({})
 -- 	},
 -- })
 --
-lspconfig.texlab.setup({})
-lspconfig.clangd.setup({
-	cmd = {
-		"clangd",
-		"--fallback-style=webkit",
-	},
-})
-lspconfig.cssls.setup({})
-lspconfig.eslint.setup({})
-lspconfig.ts_ls.setup({})
--- lspconfig.solc.setup({})
-lspconfig.html.setup({})
-lspconfig.eslint.setup({})
--- lspconfig.omnisharp_extended.setup({})
-
-local pid = vim.fn.getpid()
-local omnisharp_bin = vim.fn.stdpath("data") .. "/mason/packages/omnisharp/omnisharp"
-
-local util = require("lspconfig/util")
--- local omnisharp_ext = require("omnisharp_extended")
-lspconfig.omnisharp.setup({
-	cmd = { omnisharp_bin, "--languageserver", "--hostPID", tostring(pid) },
-	root_dir = util.root_pattern("*.sln", "*.csproj", ".git"),
-	enable_roslyn_analyzers = true,
-	organize_imports_on_format = true,
-	enable_import_completion = true,
-	-- handlers = {
-	-- 	["textDocument/definition"] = require("omnisharp_extended").definition_handler,
-	-- 	["textDocument/typeDefinition"] = require("omnisharp_extended").type_definition_handler,
-	-- 	["textDocument/references"] = require("omnisharp_extended").references_handler,
-	-- 	["textDocument/implementation"] = require("omnisharp_extended").implementation_handler,
-	-- },
-})
-
+-- lspconfig.texlab.setup({})
+-- lspconfig.clangd.setup({
+-- 	cmd = {
+-- 		"clangd",
+-- 		"--fallback-style=webkit",
+-- 	},
+-- })
+-- lspconfig.cssls.setup({})
+-- lspconfig.eslint.setup({})
+-- lspconfig.ts_ls.setup({})
+-- -- lspconfig.solc.setup({})
+-- lspconfig.html.setup({})
+-- lspconfig.eslint.setup({})
+-- -- lspconfig.omnisharp_extended.setup({})
+--
+-- local pid = vim.fn.getpid()
+-- local omnisharp_bin = vim.fn.stdpath("data") .. "/mason/packages/omnisharp/omnisharp"
+--
+-- local util = require("lspconfig/util")
+-- -- local omnisharp_ext = require("omnisharp_extended")
+-- lspconfig.omnisharp.setup({
+-- 	cmd = { omnisharp_bin, "--languageserver", "--hostPID", tostring(pid) },
+-- 	root_dir = util.root_pattern("*.sln", "*.csproj", ".git"),
+-- 	enable_roslyn_analyzers = true,
+-- 	organize_imports_on_format = true,
+-- 	enable_import_completion = true,
+-- 	-- handlers = {
+-- 	-- 	["textDocument/definition"] = require("omnisharp_extended").definition_handler,
+-- 	-- 	["textDocument/typeDefinition"] = require("omnisharp_extended").type_definition_handler,
+-- 	-- 	["textDocument/references"] = require("omnisharp_extended").references_handler,
+-- 	-- 	["textDocument/implementation"] = require("omnisharp_extended").implementation_handler,
+-- 	-- },
+-- })
+--
 -- require("lspconfig").cssls.setup({
 -- 	cmd = { "~/.local/share/nvim/mason/bin/vscode-css-language-server", "--stdio" }, -- Ensure you include '--stdio'
 --

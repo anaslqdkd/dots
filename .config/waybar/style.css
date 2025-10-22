@@ -4,26 +4,27 @@
 /* Define colors */ /* {{{ */
 
 @define-color background  rgba(21, 21, 32, 1);
-/* @define-color warning     #574934; */
-/* @define-color caution     #394540; */
-/* @define-color performance #625A4F; */
-/* @define-color audio       #945632; */
-/* @define-color misc        #996F5C; */
-/* @define-color date        #B18B6F; */
-/* @define-color work        #add9e0; */
-/* @define-color window      #79979c; */
-/* @define-color resize      #574934; */
-/* @define-color process     #394540; */
-@define-color warning     #e6a04c;
+/* @define-color warning     #e6a04c; */
 @define-color caution     #757575;
-@define-color performance #e6c07a;
-@define-color audio       #ff7a1a;
-@define-color misc        #ffb36b;
-@define-color date        #ffd580;
-@define-color work        #8cf6ff;
-@define-color window      #6fd6e6;
-@define-color resize      #e6a04c;
-@define-color process     #4fbfa3;
+/* @define-color performance #e6c07a; */
+/* @define-color audio       #ff7a1a; */
+/* @define-color misc        #ffb36b; */
+/* @define-color date        #ffd580; */
+/* @define-color work        #8cf6ff; */
+/* @define-color window      #6fd6e6; */
+/* @define-color resize      #e6a04c; */
+/* @define-color process     #4fbfa3; */
+@define-color background  #192330;
+@define-color warning     #c94053;
+/* @define-color caution     #dbc074; */
+@define-color performance #4f9cde;
+@define-color audio       #63cdcf;
+@define-color misc        #a3b09a;
+@define-color date        #e3b97b;
+@define-color work        #63cdcf;
+@define-color window      #4f9cde;
+@define-color resize      #c94053;
+@define-color process     #63cdcf;
 /* }}} */
 
 /* Reset all styles */ /* {{{ */
