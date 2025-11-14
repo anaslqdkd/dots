@@ -27,6 +27,10 @@
       source ${pkgs.zsh-vi-mode}/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
 	  [ -f "$HOME/.cache/wal/colors.sh" ] && source "$HOME/.cache/wal/colors.sh"
 	  eval "$(direnv hook zsh)"
+	     setopt APPEND_HISTORY
+		   setopt INC_APPEND_HISTORY
+		   setopt SHARE_HISTORY
+
 
 
     '';
