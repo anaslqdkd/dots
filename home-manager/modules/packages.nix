@@ -146,6 +146,10 @@
 			typescript-language-server
 			eslint
 			nodejs
+			playerctl
+			graphviz
+			libnotify
+			killall
 
 
 

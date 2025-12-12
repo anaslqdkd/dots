@@ -33,13 +33,13 @@ in
 	./modules/neovim.nix
 
     ];
+	programs.direnv.enable = true;
+
   home = {
     username = "ash";
     homeDirectory = "/home/ash";
     stateVersion = "25.05";
 	sessionVariables = {
-		EDITOR = "nvim";
-		VISUAL = "nvim";
 	};
   };
   fonts.fontconfig.enable = true;

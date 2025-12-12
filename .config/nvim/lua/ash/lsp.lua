@@ -5,60 +5,68 @@ lsp.setup()
 
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
 
-local cmp = require("cmp")
-local cmp_config = lsp.defaults.cmp_config({})
+-- local cmp = require("cmp")
+-- local cmp_config = lsp.defaults.cmp_config({})
 
-cmp.setup(cmp_config)
+-- cmp.setup(cmp_config)
+require("blink.cmp").setup({
+	keymap = {
+		preset = "default",
+		["<C-p>"] = { "select_prev", "fallback" },
+		["<C-n>"] = { "select_next", "fallback" },
+		["<cr>"] = { "accept", "fallback" },
+	},
+})
 
 local luasnip = require("luasnip")
-cmp.setup({
-	snippet = {
-		expand = function(args)
-			luasnip.lsp_expand(args.body)
-		end,
-	},
-	mapping = cmp.mapping.preset.insert({
-		["<CR>"] = cmp.mapping.confirm({ select = true }),
-		["<Tab>"] = cmp.mapping(function(fallback)
-			if cmp.visible() then
-				cmp.select_next_item()
-			elseif luasnip.expand_or_jumpable() then
-				luasnip.expand_or_jump()
-			else
-				fallback()
-			end
-		end, { "i", "s" }),
-		["<Right>"] = cmp.mapping(function(fallback)
-			if vim.fn["copilot#Accept"] and vim.fn["copilot#Accept"]("") ~= "" then
-				vim.api.nvim_feedkeys(vim.fn["copilot#Accept"](), "i", true)
-			else
-				fallback()
-			end
-		end, { "i", "s" }),
-		["<S-Tab>"] = cmp.mapping(function(fallback)
-			if cmp.visible() then
-				cmp.select_prev_item()
-			elseif luasnip.jumpable(-1) then
-				luasnip.jump(-1)
-			else
-				fallback()
-			end
-		end, { "i", "s" }),
-		["<C-b>"] = cmp.mapping.scroll_docs(-4),
-		["<C-f>"] = cmp.mapping.scroll_docs(4),
-		["<C-Space>"] = cmp.mapping.complete(),
-		["<C-e>"] = cmp.mapping.abort(),
-	}),
-	sources = cmp.config.sources({
-		{ name = "nvim_lsp" },
-		{ name = "luasnip" },
-		{ name = "orgmode" },
-	}),
-})
+-- cmp.setup({
+-- 	snippet = {
+-- 		expand = function(args)
+-- 			luasnip.lsp_expand(args.body)
+-- 		end,
+-- 	},
+-- 	mapping = cmp.mapping.preset.insert({
+-- 		["<CR>"] = cmp.mapping.confirm({ select = true }),
+-- 		["<Tab>"] = cmp.mapping(function(fallback)
+-- 			if cmp.visible() then
+-- 				cmp.select_next_item()
+-- 			elseif luasnip.expand_or_jumpable() then
+-- 				luasnip.expand_or_jump()
+-- 			else
+-- 				fallback()
+-- 			end
+-- 		end, { "i", "s" }),
+-- 		["<Right>"] = cmp.mapping(function(fallback)
+-- 			if vim.fn["copilot#Accept"] and vim.fn["copilot#Accept"]("") ~= "" then
+-- 				vim.api.nvim_feedkeys(vim.fn["copilot#Accept"](), "i", true)
+-- 			else
+-- 				fallback()
+-- 			end
+-- 		end, { "i", "s" }),
+-- 		["<S-Tab>"] = cmp.mapping(function(fallback)
+-- 			if cmp.visible() then
+-- 				cmp.select_prev_item()
+-- 			elseif luasnip.jumpable(-1) then
+-- 				luasnip.jump(-1)
+-- 			else
+-- 				fallback()
+-- 			end
+-- 		end, { "i", "s" }),
+-- 		["<C-b>"] = cmp.mapping.scroll_docs(-4),
+-- 		["<C-f>"] = cmp.mapping.scroll_docs(4),
+-- 		["<C-Space>"] = cmp.mapping.complete(),
+-- 		["<C-e>"] = cmp.mapping.abort(),
+-- 	}),
+-- 	sources = cmp.config.sources({
+-- 		{ name = "nvim_lsp" },
+-- 		{ name = "luasnip" },
+-- 		{ name = "orgmode" },
+-- 	}),
+-- })
 
 vim.lsp.config("ts_ls", {
 	on_attach = function(_, _) end,
-	capabilities = require("cmp_nvim_lsp").default_capabilities(),
+	-- capabilities = require("cmp_nvim_lsp").default_capabilities(),
 	settings = {
 		typescript = { format = { enable = true } },
 		javascript = { format = { enable = true } },
@@ -99,4 +107,29 @@ vim.lsp.config("pyright", {
 	},
 	capabilities = capabilities,
 })
+
+vim.lsp.config("rust_analyzer", {
+	settings = {
+		["rust-analyzer"] = {
+			cargo = {
+				allFeatures = true, -- enable all features in Cargo.toml
+				loadOutDirsFromCheck = true, -- helps with macro expansion
+				target = "x86_64-unknown-linux-gnu",
+			},
+			procMacro = {
+				enable = true, -- enable procedural macros
+			},
+			checkOnSave = true,
+			inlayHints = {
+				typeHints = true,
+				parameterHints = true,
+				chainingHints = true,
+			},
+			diagnostics = {
+				enable = true,
+			},
+		},
+	},
+})
 vim.lsp.enable({ "pyright" })
+vim.lsp.enable({ "rust_analyzer" })

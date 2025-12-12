@@ -40,8 +40,8 @@
 	set -g @resurrect-dir $resurrect_dir
 	set -g @resurrect-hook-post-save-all 'target=$(readlink -f $resurrect_dir/last); sed "s| --cmd .*-vim-pack-dir||g; s|/etc/profiles/per-user/$USER/bin/||g; s|/home/$USER/.nix-profile/bin/||g" $target | sponge $target'
 	set-option -g default-shell "~/.nix-profile/bin/zsh"
-
-
+    set -g mouse on
+	set -g history-limit 100000
 	run '~/.tmux/plugins/tpm/tpm'
     '';
   };

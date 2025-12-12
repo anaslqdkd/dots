@@ -11,8 +11,8 @@ Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
 Plug 'neovim/nvim-lspconfig'
-Plug 'hrsh7th/nvim-cmp'
-Plug 'hrsh7th/cmp-nvim-lsp'
+"Plug 'hrsh7th/nvim-cmp'
+"Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'L3MON4D3/LuaSnip'
 
 Plug 'VonHeikemen/lsp-zero.nvim', {'branch': 'v3.x'}
@@ -71,6 +71,8 @@ Plug 'nvim-orgmode/orgmode'
 Plug 'jbyuki/nabla.nvim'
 Plug 'dhruvasagar/vim-table-mode'
 Plug '/home/ash/.config/nvim/timekeeper'
+Plug 'nvim-orgmode/org-bullets.nvim'
+Plug 'saghen/blink.cmp', { 'version': '1.x' }
 
 "TODO: add vim table mode
 

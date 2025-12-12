@@ -3,7 +3,7 @@
 	programs.neovim = {
 		enable = true;
 		plugins = with pkgs.vimPlugins; [
-		nvim-jdtls
+		blink-cmp
 		];
 		extraLuaPackages = ps: [
 			ps.luasql-sqlite3

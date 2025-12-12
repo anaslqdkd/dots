@@ -2,29 +2,18 @@
 */
 
 /* Define colors */ /* {{{ */
-
-@define-color background  rgba(21, 21, 32, 1);
-/* @define-color warning     #e6a04c; */
-@define-color caution     #757575;
-/* @define-color performance #e6c07a; */
-/* @define-color audio       #ff7a1a; */
-/* @define-color misc        #ffb36b; */
-/* @define-color date        #ffd580; */
-/* @define-color work        #8cf6ff; */
-/* @define-color window      #6fd6e6; */
-/* @define-color resize      #e6a04c; */
-/* @define-color process     #4fbfa3; */
-@define-color background  #192330;
-@define-color warning     #c94053;
-/* @define-color caution     #dbc074; */
-@define-color performance #4f9cde;
-@define-color audio       #63cdcf;
-@define-color misc        #a3b09a;
-@define-color date        #e3b97b;
-@define-color work        #63cdcf;
-@define-color window      #4f9cde;
-@define-color resize      #c94053;
-@define-color process     #63cdcf;
+@define-color background  #7a3a4a;   /* warm rosewood, lighter + vibrant */
+@define-color caution     #ff5e8e;   /* bright hot pink */
+@define-color background  #8d4054;   /* lighter magenta-rose */
+@define-color warning     #ff3150;   /* intense red-pink */
+@define-color performance #ff7840;   /* vivid coral-orange */
+@define-color audio       #ff66c4;   /* neon rose */
+@define-color misc        #ffb878;   /* warm bright peach */
+@define-color date        #ffd766;   /* vibrant warm gold */
+@define-color work        #ff66c4;   /* neon rose */
+@define-color window      #ff7840;   /* vivid coral-orange */
+@define-color resize      #ff3150;   /* intense red-pink */
+@define-color process     #ff66c4;   /* neon rose */
 /* }}} */
 
 /* Reset all styles */ /* {{{ */
@@ -124,6 +113,9 @@
 #waybar.main #language,
 #waybar.main #backlight,
 #waybar.main #battery {
+  color: @misc;
+}
+#waybar.main #mpris {
   color: @misc;
 }
 

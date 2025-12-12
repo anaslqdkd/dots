@@ -14,6 +14,9 @@ in
       window = {
         opacity = 0.9;
       };
+	  scrolling = {
+		  history = 10000;
+	  };
     }//colorscheme;
   };
 }
