@@ -48,18 +48,22 @@ in
 '';
 
   systemd.user.services.wlsunset = {
-    Unit = {
-      Description = "wlsunset - Day/night gamma adjustment";
-      After = [ "default.target" ];
-    };
-    Service = {
-      ExecStart = "${pkgs.wlsunset}/bin/wlsunset -l 48 -L 2 -t 4000 -T 6500";
-      Restart = "on-failure";
-    };
-    Install = {
-      WantedBy = [ "default.target" ];
-    };
+	  Unit = {
+		  Description = "wlsunset - Day/night gamma adjustment";
+		  After = [ "graphical-session.target" ];
+		  PartOf = [ "graphical-session.target" ];
+	  };
+
+	  Service = {
+		  ExecStart = "${pkgs.wlsunset}/bin/wlsunset -l 48 -L 2 -t 4000 -T 6500";
+		  Restart = "on-failure";
+	  };
+
+	  Install = {
+		  WantedBy = [ "graphical-session.target" ];
+	  };
   };
+
 
 }
 

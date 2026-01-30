@@ -41,7 +41,7 @@ vim.opt.conceallevel = 2
 vim.o.foldcolumn = "1"
 vim.o.foldlevel = 2000
 vim.o.foldlevelstart = 200000
-vim.o.foldenable = true
+-- vim.o.foldenable = true
 
 vim.opt.viminfo = "'100,f1"
 

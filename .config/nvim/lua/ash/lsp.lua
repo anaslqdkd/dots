@@ -1,8 +1,3 @@
-local lsp = require("lsp-zero")
-lsp.preset("lsp-compe")
-
-lsp.setup()
-
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
 
 -- local cmp = require("cmp")
@@ -19,117 +14,187 @@ require("blink.cmp").setup({
 })
 
 local luasnip = require("luasnip")
--- cmp.setup({
--- 	snippet = {
--- 		expand = function(args)
--- 			luasnip.lsp_expand(args.body)
--- 		end,
--- 	},
--- 	mapping = cmp.mapping.preset.insert({
--- 		["<CR>"] = cmp.mapping.confirm({ select = true }),
--- 		["<Tab>"] = cmp.mapping(function(fallback)
--- 			if cmp.visible() then
--- 				cmp.select_next_item()
--- 			elseif luasnip.expand_or_jumpable() then
--- 				luasnip.expand_or_jump()
--- 			else
--- 				fallback()
--- 			end
--- 		end, { "i", "s" }),
--- 		["<Right>"] = cmp.mapping(function(fallback)
--- 			if vim.fn["copilot#Accept"] and vim.fn["copilot#Accept"]("") ~= "" then
--- 				vim.api.nvim_feedkeys(vim.fn["copilot#Accept"](), "i", true)
--- 			else
--- 				fallback()
--- 			end
--- 		end, { "i", "s" }),
--- 		["<S-Tab>"] = cmp.mapping(function(fallback)
--- 			if cmp.visible() then
--- 				cmp.select_prev_item()
--- 			elseif luasnip.jumpable(-1) then
--- 				luasnip.jump(-1)
--- 			else
--- 				fallback()
--- 			end
--- 		end, { "i", "s" }),
--- 		["<C-b>"] = cmp.mapping.scroll_docs(-4),
--- 		["<C-f>"] = cmp.mapping.scroll_docs(4),
--- 		["<C-Space>"] = cmp.mapping.complete(),
--- 		["<C-e>"] = cmp.mapping.abort(),
--- 	}),
--- 	sources = cmp.config.sources({
--- 		{ name = "nvim_lsp" },
--- 		{ name = "luasnip" },
--- 		{ name = "orgmode" },
--- 	}),
--- })
+local capabilities = require("blink.cmp").get_lsp_capabilities()
 
-vim.lsp.config("ts_ls", {
-	on_attach = function(_, _) end,
-	-- capabilities = require("cmp_nvim_lsp").default_capabilities(),
-	settings = {
-		typescript = { format = { enable = true } },
-		javascript = { format = { enable = true } },
-	},
-	filetypes = { "typescript", "typescriptreact", "typescript.tsx", "javascript" },
-	root_dir = vim.fn.getcwd(),
+-- LSP keymaps setup function
+local function setup_lsp_keymaps(event)
+	local opts = { buffer = event.buf }
+
+	-- Navigation
+	vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+	vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
+	vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
+	vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
+	vim.keymap.set("n", "gt", vim.lsp.buf.type_definition, opts)
+
+	-- Documentation
+	vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+	vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, opts)
+	vim.keymap.set("i", "<C-k>", vim.lsp.buf.signature_help, opts)
+
+	-- Code actions
+	vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
+	vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
+
+	-- Formatting
+	vim.keymap.set("n", "<leader>f", function()
+		vim.lsp.buf.format({ async = true })
+	end, opts)
+
+	-- Diagnostics
+	vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
+	vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
+	vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, opts)
+	vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, opts)
+
+	-- Workspace folders (useful for Rust multi-crate projects)
+	vim.keymap.set("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, opts)
+	vim.keymap.set("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, opts)
+	vim.keymap.set("n", "<leader>wl", function()
+		print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+	end, opts)
+end
+
+-- Setup keymaps when LSP attaches
+vim.api.nvim_create_autocmd("LspAttach", {
+	group = vim.api.nvim_create_augroup("UserLspConfig", {}),
+	callback = setup_lsp_keymaps,
 })
-vim.lsp.enable({ "ts_ls" })
+
+-- vim.lsp.config("ts_ls", {
+-- 	on_attach = function(_, _) end,
+-- 	settings = {
+-- 		typescript = { format = { enable = true } },
+-- 		javascript = { format = { enable = true } },
+-- 	},
+-- 	filetypes = { "typescript", "typescriptreact", "typescript.tsx", "javascript" },
+-- 	root_dir = vim.fn.getcwd(),
+-- })
+-- vim.lsp.enable({ "ts_ls" })
 
 vim.lsp.config("pyright", {
+	cmd = { "pyright-langserver", "--stdio" },
+	filetypes = { "python" },
+	capabilities = capabilities,
 	settings = {
 		python = {
 			analysis = {
 				useLibraryCodeForTypes = true,
-			},
-		},
-		pyright = {
-			plugins = {
-				-- formatter options
-				black = { enabled = false },
-				autopep8 = { enabled = true },
-				yapf = { enabled = false },
-				-- linter options
-				pylint = { enabled = true, executable = "pylint" },
-				pyflakes = { enabled = false },
-				pycodestyle = { enabled = false },
-				-- type checker
-				pylsp_mypy = { enabled = true },
-				-- auto-completion options
-				jedi_completion = { fuzzy = true },
-				-- import sorting
-				pyls_isort = { enabled = true },
+				autoSearchPaths = true,
+				diagnosticMode = "workspace",
+				typeCheckingMode = "basic",
 			},
 		},
 	},
 	flags = {
 		debounce_text_changes = 200,
 	},
-	capabilities = capabilities,
 })
 
 vim.lsp.config("rust_analyzer", {
+	cmd = { "rust-analyzer" },
+	filetypes = { "rust" },
+	capabilities = capabilities,
 	settings = {
 		["rust-analyzer"] = {
 			cargo = {
-				allFeatures = true, -- enable all features in Cargo.toml
-				loadOutDirsFromCheck = true, -- helps with macro expansion
-				target = "x86_64-unknown-linux-gnu",
+				allFeatures = true,
+				loadOutDirsFromCheck = true,
+				buildScripts = {
+					enable = true,
+				},
 			},
 			procMacro = {
-				enable = true, -- enable procedural macros
+				enable = true,
+				attributes = {
+					enable = true,
+				},
 			},
+			-- Check on save with clippy
 			checkOnSave = true,
+			-- Inlay hints
 			inlayHints = {
-				typeHints = true,
-				parameterHints = true,
-				chainingHints = true,
+				bindingModeHints = {
+					enable = true,
+				},
+				chainingHints = {
+					enable = true,
+				},
+				closingBraceHints = {
+					minLines = 10,
+				},
+				closureReturnTypeHints = {
+					enable = "with_block",
+				},
+				lifetimeElisionHints = {
+					enable = "skip_trivial",
+					useParameterNames = true,
+				},
+				parameterHints = {
+					enable = true,
+				},
+				typeHints = {
+					enable = true,
+					hideClosureInitialization = false,
+					hideNamedConstructor = false,
+				},
 			},
+			-- Diagnostics
 			diagnostics = {
 				enable = true,
+				experimental = {
+					enable = true,
+				},
+			},
+			-- Hover actions
+			hover = {
+				actions = {
+					enable = true,
+					references = {
+						enable = true,
+					},
+				},
+			},
+			-- Completion settings
+			completion = {
+				autoimport = {
+					enable = true,
+				},
+				privateEditable = {
+					enable = true,
+				},
 			},
 		},
 	},
 })
+  vim.lsp.config("texlab", {
+      cmd = { "texlab" },
+      filetypes = { "tex", "plaintex", "bib" },
+      root_markers = { ".latexmkrc", ".texlabroot", "texlabroot", "Tectonic.toml", ".git" },
+      capabilities = capabilities,
+      settings = {
+        texlab = {
+          build = { onSave = true },
+          chktex = {
+            onEdit = false,
+            onOpenAndSave = false,
+          },
+          diagnosticsDelay = 300,
+        },
+      },
+    })
+
+vim.lsp.config("tinymist", {
+	cmd = { "tinymist" },
+	filetypes = { "typst" },
+	capabilities = capabilities,
+	settings = {
+		exportPdf = "onSave",
+		formatterMode = "typstyle",
+	},
+})
+
 vim.lsp.enable({ "pyright" })
 vim.lsp.enable({ "rust_analyzer" })
+vim.lsp.enable({ "texlab" })
+vim.lsp.enable({ "tinymist" })

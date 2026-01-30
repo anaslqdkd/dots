@@ -62,13 +62,13 @@ end
 
 -- Initial setup: Enable format-on-save
 vim.api.nvim_create_augroup("FormatOnSave", {})
-vim.api.nvim_create_autocmd("BufWritePre", {
-	group = "FormatOnSave",
-	pattern = "*",
-	callback = function()
-		require("conform").format({ async = false }) -- Sync format
-	end,
-})
+-- vim.api.nvim_create_autocmd("BufWritePre", {
+-- 	group = "FormatOnSave",
+-- 	pattern = "*",
+-- 	callback = function()
+-- 		require("conform").format({ async = false }) -- Sync format
+-- 	end,
+-- })
 
 -- Keybinding to toggle format-on-save
 vim.keymap.set("n", "<leader>co", toggle_format_on_save, { desc = "Toggle Format on Save" })

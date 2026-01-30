@@ -1,7 +1,8 @@
 require("orgmode").setup({
 	org_agenda_files = "~/orgfiles/**/*",
 	org_default_notes_file = "~/orgfiles/refile.org",
-	org_fold_enable = false,
+	org_fold_level = 99,
+	org_fold_enable = true,
 	org_capture_templates = {
 		n = { -- Note
 			description = "Note",
@@ -89,3 +90,29 @@ end
 
 vim.api.nvim_create_user_command("SaveToJson", save_to_json, {})
 require("org-bullets").setup({})
+local get = vim.api.nvim_get_hl
+
+local function bg_from(group)
+	local ok, g = pcall(get, 0, { name = group })
+	if ok and g.bg then
+		return g.bg
+	end
+	return nil
+end
+local get = vim.api.nvim_get_hl
+local set = vim.api.nvim_set_hl
+
+local function fg(group)
+	return get(0, { name = group }).fg
+end
+
+vim.cmd([[highlight Headline1 guibg=#1e2718]])
+vim.cmd([[highlight Headline2 guibg=#21262d]])
+vim.cmd([[highlight CodeBlock guibg=#1c1c1c]])
+vim.cmd([[highlight Dash guibg=#D19A66 gui=bold]])
+
+-- require("headlines").setup({
+-- 	org = {
+-- 		headline_highlights = { "Headline1", "Headline2" },
+-- 	},
+-- })

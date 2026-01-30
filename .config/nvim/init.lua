@@ -7,7 +7,6 @@ require("ash.oil")
 require("ash.autopairs")
 require("ash.conform")
 require("ash.vimtex")
-require("lspconfig").css_variables.setup({})
 require("ash.aerial")
 require("ash.ibl")
 -- require("ash.image")
@@ -30,57 +29,28 @@ require("ash.transparent")
 require("ash.typst")
 require("ash.harpoon")
 require("ash.org")
+require("ash.fn")
 -- require("timekeeper")
--- For init.lua
-local nvim_lsp = require("lspconfig")
 vim.g.vimtex_quickfix_mode = 0
 vim.opt.runtimepath:append(vim.fn.stdpath("data") .. "/site")
 
-nvim_lsp.clangd.setup({})
-
--- Optional: Use nvim-lsp-installer to automatically install LSP servers
-require("lspconfig").clangd.setup({})
-local lspconfig = require("lspconfig")
-
-lspconfig.clangd.setup({
-	cmd = { "clangd", "--compile-commands-dir=./build" },
-	root_dir = function()
-		return vim.loop.cwd()
-	end,
-})
 vim.filetype.add({
 	pattern = {
-		[".*%.fxml$"] = "xml", -- Associate .fxml with XML filetype
+		[".*%.fxml$"] = "xml",
 	},
 })
 
 vim.diagnostic.config({
-	virtual_text = true, -- Show diagnostic messages inline with code
-	signs = true, -- Show diagnostic signs in the gutter
-	underline = true, -- Underline errors and warnings
-	severity_sort = true, -- Sort diagnostics by severity
-	update_in_insert = false, -- Don't update diagnostics in insert mode
+	virtual_text = true,
+	signs = true,
+	underline = true,
+	severity_sort = true,
+	update_in_insert = false,
 })
-
--- vim.api.nvim_create_autocmd("FileType", {
--- 	pattern = "java",
--- 	callback = function()
--- 		for _, client in pairs(vim.lsp.get_active_clients()) do
--- 			if client.name == "java_language_server" then
--- 				client.stop()
--- 			end
--- 		end
--- 	end,
--- })
---
---
-
-lspconfig.gdscript.setup({})
 
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = "help",
 	callback = function()
-		-- Check if the window is already split horizontally, and if so, change it to a vertical split
 		if vim.fn.winnr("$") > 1 then
 			vim.cmd("wincmd L")
 		else
@@ -89,7 +59,6 @@ vim.api.nvim_create_autocmd("FileType", {
 	end,
 })
 
--- Restore cursor to file position in previous editing session
 vim.api.nvim_create_autocmd("BufReadPost", {
 	callback = function(args)
 		local mark = vim.api.nvim_buf_get_mark(args.buf, '"')
@@ -100,7 +69,6 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 	end,
 })
 
--- Show cursorline only on active windows
 vim.api.nvim_create_autocmd({ "InsertLeave", "WinEnter" }, {
 	callback = function()
 		if vim.w.auto_cursorline then
@@ -119,12 +87,19 @@ vim.api.nvim_create_autocmd({ "InsertEnter", "WinLeave" }, {
 	end,
 })
 
--- Auto resize splits when the terminal's window is resized
 vim.api.nvim_create_autocmd("VimResized", {
 	command = "wincmd =",
 })
-
 vim.api.nvim_create_autocmd("FileType", {
+    pattern = "org",
+    callback = function()
+        vim.cmd("setlocal foldlevel=99")
+		print("Setting the level to 99")
+    end,
+})
+
+
+vim.api.nvim_create_autocmd("BufReadPost", {
 	pattern = "typst",
 	callback = function()
 		vim.bo.commentstring = "// %s"
@@ -134,13 +109,11 @@ vim.api.nvim_create_autocmd("FileType", {
 vim.api.nvim_create_autocmd("BufWritePost", {
 	pattern = "*.typ",
 	callback = function()
-		local input_file = vim.fn.expand("%") -- Get the full path of the current file
-		local output_file = vim.fn.expand("%:p:h") .. "/pdfs/" .. vim.fn.expand("%:t:r") .. ".pdf" -- Construct the output file path in the pdfs directory
+		local input_file = vim.fn.expand("%")
+		local output_file = vim.fn.expand("%:p:h") .. "/pdfs/" .. vim.fn.expand("%:t:r") .. ".pdf"
 
-		-- Ensure the pdfs directory exists
 		vim.fn.system("mkdir -p " .. vim.fn.expand("%:p:h") .. "/pdfs")
 
-		-- Compile the Typst file and output the PDF to the pdfs directory
 		vim.fn.system("typst compile " .. input_file .. " " .. output_file)
 	end,
 })
@@ -161,8 +134,6 @@ vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
 	desc = "load view (folds), when opening file",
 	command = "silent! loadview",
 })
--- TODO: put a visual element in oil to know that i am in the file editor and
--- not in an actual file
 
 local function to_org()
 	vim.cmd("TodoQuickFix")
@@ -170,3 +141,61 @@ local function to_org()
 	print(vim.inspect(todos))
 end
 vim.api.nvim_create_user_command("ToOrg", to_org, {})
+
+require("snacks").setup({
+	input = {},
+	picker = {},
+	terminal = {},
+})
+vim.o.autoread = true
+vim.keymap.set({ "n", "x" }, "<leader>ot", function()
+	require("opencode").ask("@this: ", { submit = true })
+end, { desc = "Ask opencode" })
+vim.keymap.set({ "n", "x" }, "<leader>ox", function()
+	require("opencode").select()
+end, { desc = "Execute opencode action…" })
+vim.keymap.set({ "n", "t" }, "<leader>or", function()
+	require("opencode").toggle()
+end, { desc = "Toggle opencode" })
+
+vim.keymap.set({ "n", "x" }, "go", function()
+	return require("opencode").operator("@this ")
+end, { expr = true, desc = "Add range to opencode" })
+vim.keymap.set("n", "goo", function()
+	return require("opencode").operator("@this ") .. "_"
+end, { expr = true, desc = "Add line to opencode" })
+
+vim.keymap.set("n", "<leader>ou", function()
+	require("opencode").command("session.half.page.up")
+end, { desc = "opencode half page up" })
+vim.keymap.set("n", "<leader>od", function()
+	require("opencode").command("session.half.page.down")
+end, { desc = "opencode half page down" })
+
+
+vim.g.opencode_opts = {
+	provider = {
+		enabled = "tmux",
+		tmux = {
+			-- ...
+		},
+	},
+}
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "markdown",
+  callback = function()
+    vim.api.nvim_buf_set_keymap(0, "n", "<C-Space>", ':lua require("ash.fn").toggle_checkbox()<CR>', {noremap=true, silent=true})
+  end,
+})
+
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "markdown",
+  callback = function()
+    vim.keymap.set("n", "<CR>", function()
+      require("ash.fn").continue_checkbox_normal()
+    end, {buffer = true, noremap=true, silent=true})
+  end,
+})
+

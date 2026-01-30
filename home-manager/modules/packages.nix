@@ -113,7 +113,7 @@
 			dancing-script
 			eb-garamond
 
-			nodejs_24
+			# nodejs_24
 			black
 			google-java-format
 			sqlite
@@ -150,6 +150,23 @@
 			graphviz
 			libnotify
 			killall
+			taskwarrior2
+			taskbook
+			rustfmt
+			opencode
+			lsof
+			scrcpy 
+			obs-studio 
+			droidcam
+			ffmpeg
+			teams-for-linux
+			zip
+			poppler-utils
+			mupdf
+			vlc
+			taskwarrior-tui
+
+
 
 
 

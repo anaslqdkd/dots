@@ -1,5 +1,5 @@
-require("nvim-treesitter.configs").setup({
-	ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "java", "go", "cpp", "python", "xml" },
+require("nvim-treesitter").setup({
+	ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "java", "go", "cpp", "python", "xml", "nix", "markdown", "rust", "bash", "json", "yaml", "toml", "luadoc, 'javascript", "typst"},
 	indent = {
 		disable = { "norg" },
 	},
