@@ -30,6 +30,7 @@ require("ash.typst")
 require("ash.harpoon")
 require("ash.org")
 require("ash.fn")
+
 -- require("timekeeper")
 vim.g.vimtex_quickfix_mode = 0
 vim.opt.runtimepath:append(vim.fn.stdpath("data") .. "/site")
@@ -106,18 +107,6 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 	end,
 })
 
-vim.api.nvim_create_autocmd("BufWritePost", {
-	pattern = "*.typ",
-	callback = function()
-		local input_file = vim.fn.expand("%")
-		local output_file = vim.fn.expand("%:p:h") .. "/pdfs/" .. vim.fn.expand("%:t:r") .. ".pdf"
-
-		vim.fn.system("mkdir -p " .. vim.fn.expand("%:p:h") .. "/pdfs")
-
-		vim.fn.system("typst compile " .. input_file .. " " .. output_file)
-	end,
-})
-
 vim.g.WMGraphviz_output = "svg"
 -- vim.api.nvim_create_autocmd("VimLeave", {
 -- 	pattern = "*.tex",
@@ -128,6 +117,14 @@ vim.api.nvim_create_autocmd({ "BufWinLeave" }, {
 	pattern = { "*.*" },
 	desc = "save view (folds), when closing file",
 	command = "mkview",
+})
+
+vim.api.nvim_create_autocmd({"BufWinEnter"}, {
+	pattern = {"*.tsx", "*.js", "*.ts", "*.jsx"},
+	callback = function()
+		vim.opt.shiftwidth = 2
+		vim.opt.tabstop = 2
+	end,
 })
 vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
 	pattern = { "*.*" },
@@ -198,4 +195,14 @@ vim.api.nvim_create_autocmd("FileType", {
     end, {buffer = true, noremap=true, silent=true})
   end,
 })
+
+vim.g.startify_bookmarks = {
+	{ a = '~/.config/nvim/init.lua' },
+	{ b = '~/.config/hypr/hyprland.conf' },
+	{ c = '~/home-manager/modules/packages.nix' },
+}
+vim.g.startify_lists = {
+    { type = 'bookmarks', header = { '   Bookmarks' } },
+    { type = 'files',     header = { '   MRU' } },
+}
 

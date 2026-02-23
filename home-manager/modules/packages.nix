@@ -1,4 +1,18 @@
-{ pkgs, zen, ... }:
+{ pkgs, pkgs-unstable, zen, nkfrf, ... }:
+let
+	zellijUnstable = pkgs.zellij.overrideAttrs (oldAttrs: rec {
+		version = "0.43.0";
+		src = oldAttrs.src.override {
+			tag = null;
+			rev = "b634a57de8f0025de36dd19e3e7916d2b27e38cd";
+			hash = "sha256-a0JJD+9neYOyDx/gAxPIdthTg695ShU93palExu3Vvo=";
+		};
+		cargoDeps = pkgs.rustPlatform.fetchCargoVendor {
+			inherit src;
+			hash = "sha256-P4VabkEFBvj2YkkhXqH/JZp3m3WMKcr0qUMhdorEm1Q=";
+		};
+		});
+in
 {
 	nixpkgs.config.allowUnfree = true;
 	nixpkgs.config.android_sdk.accept_license = true;
@@ -32,6 +46,7 @@
 			lxappearance
 			hyprpaper
 			hyprlock
+			hypridle
 			brightnessctl
 			networkmanagerapplet
 			wofi
@@ -150,10 +165,9 @@
 			graphviz
 			libnotify
 			killall
-			taskwarrior2
+			taskwarrior3
 			taskbook
 			rustfmt
-			opencode
 			lsof
 			scrcpy 
 			obs-studio 
@@ -165,11 +179,12 @@
 			mupdf
 			vlc
 			taskwarrior-tui
-
-
-
-
-
-
+			nkfrf
+			bat
+			glow
+			nb
+			calcurse
+			zellijUnstable
+			pkgs-unstable.opencode
 			];
 }

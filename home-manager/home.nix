@@ -1,4 +1,4 @@
-{ lib, pkgs, zen, ... }:
+{ lib, pkgs, zen, nkfrf, ... }:
 let
 nvim-spell-fr-utf8-dictionary = builtins.fetchurl {
   url = "http://ftp.vim.org/vim/runtime/spell/fr.utf-8.spl";
@@ -43,10 +43,6 @@ in
 	};
   };
   fonts.fontconfig.enable = true;
-  home.activation.createTmuxResurrectDir = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-  mkdir -p "$HOME/.tmux/resurrect"
-'';
-
   systemd.user.services.wlsunset = {
 	  Unit = {
 		  Description = "wlsunset - Day/night gamma adjustment";
@@ -63,6 +59,7 @@ in
 		  WantedBy = [ "graphical-session.target" ];
 	  };
   };
+  services.hypridle.enable = true;
 
 
 }

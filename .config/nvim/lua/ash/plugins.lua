@@ -82,6 +82,8 @@ Plug 'folke/snacks.nvim'
 Plug 'nvim-tree/nvim-web-devicons'
 Plug 'rose-pine/neovim',
 Plug 'chomosuke/typst-preview.nvim', {'tag': 'v1.*'}
+Plug 'mhinz/vim-startify'
+Plug 'christoomey/vim-tmux-navigator'
 
 "TODO: add vim table mode
 

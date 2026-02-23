@@ -89,14 +89,12 @@ programs.steam = {
 
   services.displayManager.defaultSession = "hyprland";
 
-systemd.services.lock-on-sleep = {
+systemd.user.services.lock-on-sleep = {
   description = "Lock screen before sleep";
   before = [ "sleep.target" ];
   wantedBy = [ "sleep.target" ];
   serviceConfig = {
-    Type = "simple";
-    User = "ash"; # Replace with your username
-    Environment = "DISPLAY=:0"; # Adjust if needed
+    Type = "oneshot";
     ExecStart = "${pkgs.swaylock}/bin/swaylock -f";
   };
 };
@@ -118,12 +116,23 @@ systemd.services.lock-on-sleep = {
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
   # Select internationalisation properties.
-  # i18n.defaultLocale = "en_US.UTF-8";
-  # console = {
-  #   font = "Lat2-Terminus16";
-  #   keyMap = "us";
-  #   useXkbConfig = true; # use xkb.options in tty.
-  # };
+  i18n.defaultLocale = "fr_FR.UTF-8";
+  i18n.extraLocaleSettings = {
+  LC_ADDRESS = "fr_FR.UTF-8";
+  LC_IDENTIFICATION = "fr_FR.UTF-8";
+  LC_MEASUREMENT = "fr_FR.UTF-8";
+  LC_MONETARY = "fr_FR.UTF-8";
+  LC_NAME = "fr_FR.UTF-8";
+  LC_NUMERIC = "fr_FR.UTF-8";
+  LC_PAPER = "fr_FR.UTF-8";
+  LC_TELEPHONE = "fr_FR.UTF-8";
+  LC_TIME = "fr_FR.UTF-8";
+	};
+   console = {
+     font = "Lat2-Terminus16";
+     # keyMap = "fr";
+     useXkbConfig = true; 
+   };
 
   # Enable the X11 windowing system.
    # services.xserver.enable = true;
@@ -136,6 +145,8 @@ xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-hyprland ];
 
 environment.sessionVariables = {
   NIXOS_OZONE_WL = "1"; # For Electron apps to support Wayland
+  LANG = "fr_FR.UTF-8";
+  LC_ALL = "fr_FR.UTF-8";
 };
 
 hardware.bluetooth = {
@@ -150,7 +161,7 @@ hardware.bluetooth = {
   
 
   # Configure keymap in X11
-  # services.xserver.xkb.layout = "us";
+  services.xserver.xkb.layout = "fr";
   # services.xserver.xkb.options = "eurosign:e,caps:escape";
 
   # Enable CUPS to print documents.

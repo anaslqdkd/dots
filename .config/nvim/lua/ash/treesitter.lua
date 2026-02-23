@@ -1,5 +1,5 @@
 require("nvim-treesitter").setup({
-	ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "java", "go", "cpp", "python", "xml", "nix", "markdown", "rust", "bash", "json", "yaml", "toml", "luadoc, 'javascript", "typst"},
+	ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "java", "go", "cpp", "python", "xml", "nix", "markdown", "rust", "bash", "json", "yaml", "toml", "luadoc", "javascript", "typescript", "tsx", "typst"},
 	indent = {
 		disable = { "norg" },
 	},
@@ -8,7 +8,7 @@ require("nvim-treesitter").setup({
 
 	auto_install = true,
 
-	ignore_install = { "javascript" },
+	ignore_install = {},
 
 	highlight = {
 		enable = true,

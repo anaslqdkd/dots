@@ -29,7 +29,7 @@ local function setup_lsp_keymaps(event)
 
 	-- Documentation
 	vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
-	vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, opts)
+	-- vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, opts)
 	vim.keymap.set("i", "<C-k>", vim.lsp.buf.signature_help, opts)
 
 	-- Code actions
@@ -61,16 +61,23 @@ vim.api.nvim_create_autocmd("LspAttach", {
 	callback = setup_lsp_keymaps,
 })
 
--- vim.lsp.config("ts_ls", {
--- 	on_attach = function(_, _) end,
--- 	settings = {
--- 		typescript = { format = { enable = true } },
--- 		javascript = { format = { enable = true } },
--- 	},
--- 	filetypes = { "typescript", "typescriptreact", "typescript.tsx", "javascript" },
--- 	root_dir = vim.fn.getcwd(),
--- })
--- vim.lsp.enable({ "ts_ls" })
+vim.lsp.config("ts_ls", {
+	cmd = { "typescript-language-server", "--stdio" },
+	filetypes = { "typescript", "typescriptreact", "typescript.tsx", "javascript", "javascriptreact" },
+	capabilities = capabilities,
+	settings = {
+		typescript = {
+			format = {
+				enable = true,
+			},
+		},
+		javascript = {
+			format = {
+				enable = true,
+			},
+		},
+	},
+})
 
 vim.lsp.config("pyright", {
 	cmd = { "pyright-langserver", "--stdio" },
@@ -198,3 +205,4 @@ vim.lsp.enable({ "pyright" })
 vim.lsp.enable({ "rust_analyzer" })
 vim.lsp.enable({ "texlab" })
 vim.lsp.enable({ "tinymist" })
+vim.lsp.enable({ "ts_ls" })
